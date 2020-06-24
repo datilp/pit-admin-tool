@@ -25,7 +25,7 @@ SECRET_KEY = 'rl^$*=iqum571ck3%0)wv$sf5m!rl&wbt8zh@0eg4_k5r4ywc#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ '0.0.0.0',]
 
 
 # Application definition
@@ -37,9 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'frontend',
+    'test_api',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -99,6 +104,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/

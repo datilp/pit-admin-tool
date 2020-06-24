@@ -1,8 +1,17 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import axios from 'axios';
 
 function App() {
+  let url = "http://0.0.0.0:8000/testapi/testapi/";
+  axios.post(url, {})
+  .then(response => {
+    console.log(response);
+  })
+  .catch(err => {
+    console.log(err)
+  });
   return (
     <div className="App">
       <header className="App-header">
