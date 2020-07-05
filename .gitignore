@@ -1,6 +1,11 @@
 */*/__pycache__/
+__pycache__/
+__pychache__
 */*/migrations/__pycache__/
+*/*/migrations/
 project/db.sqlite3
+django-rest-knox/
 *.swp
 .DS_Store
 package-lock.json
+.idea
