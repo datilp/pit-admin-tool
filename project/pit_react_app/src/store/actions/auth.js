@@ -38,10 +38,11 @@ export const setAuthRedirectPath = (path) => {
 };
 
 export const logout = () => {
-    console.log("deleting localstorage");
+    //console.log("deleting localstorage");
     localStorage.removeItem('token');
     localStorage.removeItem('expirationDate');
     localStorage.removeItem('userId');
+    localStorage.clear();
     return {
         type: actionTypes.AUTH_LOGOUT
     };
@@ -77,7 +78,7 @@ export const auth = (email, password) => {
         
         // I'm using the knox authenticantion and at the time of writing the way of 
         // passing that down is via the Authorization header with the keyword Basic
-        // follow with space and the email:password encoded in base64.
+        // followed by space and the email:password encoded in base64.
         // The reason for the encoding is simply to make things more dificult to hackers
         // in case the email/password combination goes out in the open.
         const encodedAuthData = new Buffer(email+":"+password).toString('base64');
@@ -96,15 +97,16 @@ export const auth = (email, password) => {
         
         axios.post(url, null, config)
             .then(response => {
-                console.log(response)
+                //console.log("In auth:", response)
                 // we use local storage, a browser API to store data that survive
                 // a page refresh.
                 // the redux storage works as long as the page is not refreshed but
                 // once it is all the state is lost as it is just javascript objects.
-                // so we store the localstorage here before dispatching to the reducer.
+                // so we store the local storage here before dispatching to the reducer.
                 // We could have done it in the action dispatcher but there is no point 
                 // of passing the expiration time there, since it doesn't survive a refresh.
                 // So here in the action creator looks like the right place to put it.
+                //console.log("setting token:", response.data.token);
                 localStorage.setItem('token', response.data.token);
 
                 // new Date with argument is an object with the date we are passing in
@@ -119,6 +121,7 @@ export const auth = (email, password) => {
                 dispatch(checkAuthTimeout(response.data.expirationTime))
             })
             .catch(err => {
+                console.log(err)
                 dispatch(authFail(err.response.data.error))
             })
 
@@ -139,20 +142,18 @@ export const appLogout = () => {
                 }
         };
     
-        if (!token) {
-            console.log("There is no token");
-            dispatch(logout());
-        } else {
+        if (token) {
             axios.post(url,null, config)
             .then((res) => {
                 dispatch(logout())
-                console.log("logout successful");
+                //console.log("logout successful");
             }).catch((err) => {
                 console.log(err.response.data.error);
                 dispatch(logout());
                 dispatch(authFail(err.response.data.error));
-            })
+            });
         }
+        dispatch(logout());
     };
 };
 

@@ -10,6 +10,8 @@ import './index.module.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import authReducer from './store/reducers/auth';
+import cfpReducer from './store/reducers/cfp';
+import * as actionTypes from './store/actions/actionTypes';
 
 // Alert Options
 const alertOptions = {
@@ -19,10 +21,20 @@ const alertOptions = {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
     //other state reducers go here
-    auth: authReducer
+    auth: authReducer,
+    cfps: cfpReducer
 });
+
+const rootReducer = (state, action) => {
+ //console.log("RootReducer:", action);
+ if (action.type === actionTypes.AUTH_LOGOUT) {
+   state = undefined;
+ }
+ return appReducer(state, action);
+};
+
 
 const store = createStore(rootReducer, composeEnhancers(
     applyMiddleware(thunk)

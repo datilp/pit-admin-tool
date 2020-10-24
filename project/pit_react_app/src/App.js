@@ -33,14 +33,14 @@ class App extends Component {
   }
 
   render() {
-    let url = "http://0.0.0.0:8000/testapi/testapi/";
+    /*let url = "http://0.0.0.0:8000/testapi/testapi/";
     axios.post(url, {})
     .then(response => {
       console.log(response);
     })
     .catch(err => {
       console.log(err)
-    });
+    });*/
   
     let routes = (
       <Switch>
