@@ -1,5 +1,30 @@
 #!/bin/bash
 
+docker_root_shell() {
+docker exec -u 0 -it pit-admin-tool_pit_admin_app_1 sh
+}
+
+docker_load() {
+docker-compose run pit_admin_app sh -c "python manage.py loaddata $1"
+#docker-compose run pit_admin_app sh -c "python manage.py loaddata semester.yaml"
+#docker-compose run pit_admin_app sh -c "python manage.py loaddata cfp.yaml"
+}
+
+docker_superuser() {
+docker-compose run pit_admin_app sh -c "python manage.py createsuperuser"
+}
+
+docker_shell() {
+  docker exec -it pit-admin-tool_pit_admin_app_1 sh -c "/bin/sh"
+}
+
+docker_pg_shell() {
+  docker exec -it pit-admin-tool_pit_admin_app_1 sh -c "python manage.py dbshell"
+}
+
+docker_ls() {
+  docker container ls -a --no-trunc
+}
 loginx() {
   email=$1
   pwd=$2
@@ -56,6 +81,21 @@ case "$1" in
     ;;
   me)
     mex $2
+    ;;
+  pgsh)
+    docker_pg_shell
+    ;;
+  dsh)
+    docker_shell
+    ;;
+  super)
+    docker_superuser
+    ;;
+  drootsh)
+    docker_root_shell
+    ;;
+  load)
+    docker_load $2
     ;;
   *)
     echo $"Usage: $0 {login email pwd|logout token|me token}"
