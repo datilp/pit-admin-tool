@@ -39,13 +39,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
     'knox',
     'frontend',
     'core',
+    'yaml',
     'user',
+    'CfP_app',
     'test_api',
 ]
 
@@ -69,13 +72,17 @@ MIDDLEWARE = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
         'knox.auth.TokenAuthentication',
-    ]
+        #'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated', ]
 }
 
 REST_KNOX = {
-  'TOKEN_TTL': timedelta(hours=0.1),
+  #'TOKEN_TTL': timedelta(hours=0.1),
+  'TOKEN_TTL': timedelta(hours=10.0),
   # # original # 'USER_SERIALIZER': 'knox.serializers.UserSerializer',
   'USER_SERIALIZER': 'user.serializers.UserSerializer',
   'TOKEN_LIMIT_PER_USER': 1000,
@@ -115,6 +122,10 @@ DATABASES = {
         'NAME': os.environ.get('DB_NAME'),
         'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASS'),
+        #'HOST': 'pit_admin_db',
+        #'NAME': 'pit_admin_db',
+        #'USER': 'postgres',
+        #'PASSWORD': 'supersecretpassword',
     }
 }
 
@@ -127,6 +138,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',

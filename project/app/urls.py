@@ -20,5 +20,6 @@ urlpatterns = [
     path('api/user/', include('user.urls')),
     path('testapi/', include('test_api.urls')),
     path('testapi2/', include('test_api.urls')),
+    path('', include('CfP_app.urls')),
     path('admin/', admin.site.urls),
 ]

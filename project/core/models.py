@@ -23,6 +23,10 @@ class UserManager(BaseUserManager):
         """with email normalized, i.e. lowercase in the hostname part"""
         user = self.model(email=self.normalize_email(email), **extra_fields)
         # set_password here will encrypt the password
+        #print("partner is:", user.partner)
+        #print("password is:", password)
+        # TODO when password gets here is already NONE, cause we don't save the
+        #   password wih the user, but where is it saved if it is saved and how
         user.set_password(password)
         user.save(using=self._db)
         """https://stackoverflow.com/questions/57667334/what-is-the-value-of-self-db-by-default-in-django
@@ -52,6 +56,9 @@ class UserManager(BaseUserManager):
 
         return user
 
+    #def get_by_natural_key(self, username):
+    #    print("get_by_natural_key user")
+    #    return self.get(**{self.model.USERNAME_FIELD: username})
 
 # create our User model
 # This model inherits the AbstractBaseUser

@@ -16,7 +16,8 @@ class UserSerializer(serializers.ModelSerializer):
         model = get_user_model()
         # fields converted to and from json when we do our http request
         # fields we want to make available to the API
-        fields = ('email', 'password', 'name', 'partner')
+        fields = ('id', 'last_login', 'email', 'name', 'partner')
+        #exclude = ['password']
         # allows to configure extra settings in our model serializer
         # in this case we make it to ensure the password:
         #  .- has the correct length
@@ -32,7 +33,7 @@ class UserSerializer(serializers.ModelSerializer):
         # I already have this done in core.models.
         # See that get_user_model will get me core.User and the create_user
         # in UserManager will do the rest.
-        print("User Serializer create")
+        #print("User Serializer create")
         return get_user_model().objects.create_user(**validated_data)
 
     # the instance is going to be the model linked to our model serializer in

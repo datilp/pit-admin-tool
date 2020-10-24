@@ -23,6 +23,7 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.views import LoginView as KnoxLoginView
 from knox.auth import TokenAuthentication as KnoxTokenAuthentication
 from knox.models import AuthToken
+from django.contrib.auth import get_user_model, authenticate
 
 from user.serializers import UserSerializer, AuthTokenSerializer
 
@@ -39,6 +40,32 @@ from user.serializers import UserSerializer, AuthTokenSerializer
 class CreateUserView(generics.CreateAPIView):
     """Create a new user in the system"""
     serializer_class = UserSerializer
+    # TODO test case for minimum password and check_password
+    #   not working. The client.post(...) command comes through
+    #   here so at some point somehow these two things are verified.
+    def ppost(self, request, *args, **kwargs):
+        import json
+        print(json.dumps(request.data, indent=2))
+
+        #serializer = self.get_serializer(data=request.data)
+        #serializer = UserSerializer.objects.create_user(**request.data)
+        #user = get_user_model().objects.create_user(email="isuarezsolatest@gmail.com",
+        #                                            password="retrop231416")
+        print("after user")
+        serializer = UserSerializer(data=request.data)
+        print("created serializer")
+        try:
+            serializer.is_valid(raise_exception=True)
+        except exceptions as e:
+            print("Exception:%s" % e.strerror)
+
+        print("serializer_isvalid")
+        #self.perform_create(serializer)
+        serializer.save()
+        print("serializer.data:", json.dumps(serializer.data, indent=2))
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        #return super().post(request, *args, **kwargs)
 
 
 # this version is not working. Not sure where I got this from.
@@ -245,7 +272,7 @@ class LogoutView(APIView):
 
 class CreateTokenView(ObtainAuthToken):
     """Create a new user token for the user"""
-    serializer_class = AuthTokenSerializer
+    #serializer_class = AuthTokenSerializer
     # sets the renderer so we can use the this view in the HTML/browser
     renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
 
@@ -260,6 +287,7 @@ class CreateTokenView(ObtainAuthToken):
 class ManageUserView(generics.RetrieveUpdateAPIView):
     """Manage the authenticated user"""
     serializer_class = UserSerializer  # serializer class attribute
+    authentication_classes = (TokenAuthentication,)
     # the authentication class type is going to be token base
     # authentication_classes = (authentication.TokenAuthentication,)
     # the permissions are going to be just that it is authenticated
