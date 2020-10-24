@@ -1,0 +1,32 @@
+- model: CfP_app.CfP
+  pk: 1
+  fields:
+    semester: 5
+    open: "2020-09-01T00:00:00.0Z"
+    pi: 3
+    close: "2020-10-11T00:00:00.0Z"
+    tz: Europe/Rome
+- model: CfP_app.CfP
+  pk: 2
+  fields:
+    semester: 6
+    open: "2020-08-31T22:00:00.0Z"
+    pi: 3
+    close: "2020-10-10T22:00:00.0Z"
+    tz: Europe/Rome
+- model: CfP_app.CfP
+  pk: 3
+  fields:
+    semester: 5
+    open: "2020-09-01T00:00:00.0Z"
+    pi: 2
+    close: "2020-10-11T00:00:00.0Z"
+    tz: America/Phoenix
+- model: CfP_app.CfP
+  pk: 4
+  fields:
+    semester: 6
+    open: "2020-08-31T22:00:00.0Z"
+    pi: 2
+    close: "2020-10-10T22:00:00.0Z"
+    tz: America/Phoenix

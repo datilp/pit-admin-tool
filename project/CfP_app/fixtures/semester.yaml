@@ -1,0 +1,30 @@
+- model: CfP_app.Semester
+  pk: 1
+  fields:
+    year: 2018
+    sem: A
+- model: CfP_app.Semester
+  pk: 2
+  fields:
+    year: 2018
+    sem: B
+- model: CfP_app.Semester
+  pk: 3
+  fields:
+    year: 2019
+    sem: A
+- model: CfP_app.Semester
+  pk: 4
+  fields:
+    year: 2019
+    sem: B
+- model: CfP_app.Semester
+  pk: 5
+  fields:
+    year: 2020
+    sem: A
+- model: CfP_app.Semester
+  pk: 6
+  fields:
+    year: 2020
+    sem: B
